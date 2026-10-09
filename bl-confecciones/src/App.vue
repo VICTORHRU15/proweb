@@ -27,7 +27,7 @@
 
       <!-- Trailing Action: Pedir por WhatsApp -->
       <div class="flex items-center space-x-3">
-        <a class="inline-flex items-center space-x-2 bg-[#25D366] hover:bg-[#1EBE5D] text-white px-4 py-2.5 rounded-full font-label-lg text-label-lg transition-transform duration-150 active:scale-95 shadow-sm" href="https://wa.me/573000000000?text=Hola%20BL%20Confecciones,%20quiero%20información" target="_blank">
+        <a class="inline-flex items-center space-x-2 bg-[#25D366] hover:bg-[#1EBE5D] text-white px-4 py-2.5 rounded-full font-label-lg text-label-lg transition-transform duration-150 active:scale-95 shadow-sm" href="https://wa.me/573226718769?text=Hola%20BL%20Confecciones,%20quiero%20información" target="_blank">
           <span class="material-symbols-outlined text-[20px]" data-icon="chat">chat</span>
           <span class="hidden sm:inline">Pedir por WhatsApp</span>
           <span class="sm:hidden">Pedir</span>
