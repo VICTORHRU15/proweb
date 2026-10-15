@@ -90,9 +90,8 @@ async function agregarProducto() {
 // --- ACTUALIZAR (PUT) ---
 const productoAEditar = ref({ id: null, nombre: "", categoria: "", precio: 0, stock: 0, imagen: "" });
 
-// Esta función carga los datos en el modal antes de editar
 function prepararEdicion(producto) {
-  productoAEditar.value = { ...producto }; // Copia los datos exactos del producto
+  productoAEditar.value = { ...producto }; 
 }
 
 async function actualizarProducto() {
@@ -111,7 +110,6 @@ async function actualizarProducto() {
 
 // --- ELIMINAR (DELETE) ---
 async function eliminarProducto(id) {
-  // Confirmación por seguridad antes de borrar
   if (!confirm("¿Estás seguro de eliminar esta bata del catálogo? Esta acción no se puede deshacer.")) return;
   
   try {
@@ -119,7 +117,7 @@ async function eliminarProducto(id) {
       method: "DELETE"
     });
     if (!respuesta.ok) throw new Error("Error al eliminar el producto");
-    await cargarCatalogo(); // Recarga visualmente la página quitando el producto
+    await cargarCatalogo();
   } catch (e) {
     alert("Ocurrió un error: " + e.message);
   }
@@ -150,24 +148,32 @@ onMounted(cargarCatalogo);
           <li class="nav-item">
             <a class="nav-link" :class="{ 'text-brand-primary fw-semibold': vistaActual === 'catalogo' }" href="#" @click.prevent="cambiarVista('catalogo')">Catálogo Completo</a>
           </li>
-          <li v-if="vistaActual === 'inicio'" class="nav-item"><a class="nav-link" href="#beneficios">Beneficios</a></li>
           
-          <!-- Login -->
+          <!-- Enlaces de Beneficios y Contacto (Solo visibles en Inicio) -->
+          <li v-if="vistaActual === 'inicio'" class="nav-item">
+            <a class="nav-link" href="#beneficios">Beneficios</a>
+          </li>
+          <li v-if="vistaActual === 'inicio'" class="nav-item">
+            <a class="nav-link" href="#contacto">Contacto</a>
+          </li>
+          
+          <!-- Login Administrativo -->
           <li class="nav-item ms-lg-3" v-if="!esAdmin">
             <a class="nav-link text-secondary d-flex align-items-center gap-1" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin" title="Acceso Administrativo">
               <span class="material-symbols-outlined" style="font-size: 1.2rem;">lock</span>
             </a>
           </li>
-          <!-- Logout -->
+          <!-- Logout Administrativo -->
           <li class="nav-item dropdown ms-lg-3" v-else>
             <a class="nav-link dropdown-toggle text-success fw-bold d-flex align-items-center gap-1" href="#" role="button" data-bs-toggle="dropdown">
-              <span class="material-symbols-outlined" style="font-size: 1.2rem;">admin_panel_settings</span>
-              Admin
+              <span class="material-symbols-outlined" style="font-size: 1.2rem;">admin_panel_settings</span> Admin
             </a>
             <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
-              <li><a class="dropdown-item text-danger d-flex align-items-center gap-2" href="#" @click.prevent="cerrarSesion">
-                <span class="material-symbols-outlined" style="font-size: 1.2rem;">logout</span> Cerrar Sesión
-              </a></li>
+              <li>
+                <a class="dropdown-item text-danger d-flex align-items-center gap-2" href="#" @click.prevent="cerrarSesion">
+                  <span class="material-symbols-outlined" style="font-size: 1.2rem;">logout</span> Cerrar Sesión
+                </a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -181,9 +187,12 @@ onMounted(cargarCatalogo);
   </nav>
 
   <main>
-    <!-- VISTA 1: LANDING PAGE -->
+    <!-- ==========================================
+         VISTA 1: LANDING PAGE
+         ========================================== -->
     <div v-if="vistaActual === 'inicio'">
-      <!-- (El contenido de inicio se mantiene idéntico) -->
+      
+      <!-- Hero Section -->
       <section class="py-5 bg-light border-bottom">
         <div class="container py-4">
           <div class="row align-items-center gy-5">
@@ -207,6 +216,7 @@ onMounted(cargarCatalogo);
         </div>
       </section>
 
+      <!-- Preview del Catálogo -->
       <section class="py-5 bg-white">
         <div class="container py-5">
           <div class="text-center mb-5">
@@ -228,9 +238,77 @@ onMounted(cargarCatalogo);
           </div>
         </div>
       </section>
+
+      <!-- Sección de Beneficios -->
+      <section id="beneficios" class="py-5 bg-light">
+        <div class="container py-5">
+          <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold text-brand-primary">¿Por qué elegir nuestras batas?</h2>
+            <p class="text-secondary">Calidad y comodidad garantizada</p>
+          </div>
+          <div class="row g-4 text-center">
+            <div class="col-md-4">
+              <div class="p-4 bg-white rounded-4 shadow-sm h-100 border-0">
+                <span class="material-symbols-outlined text-info fs-1 mb-3">water_drop</span>
+                <h4 class="fw-bold text-brand-primary">Máxima Absorción</h4>
+                <p class="text-muted mb-0">Confeccionadas en toalla 93% algodón, diseñadas para secar rápidamente y mantener la calidez al salir del agua.</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-4 bg-white rounded-4 shadow-sm h-100 border-0">
+                <span class="material-symbols-outlined text-info fs-1 mb-3">factory</span>
+                <h4 class="fw-bold text-brand-primary">Precios de Fábrica</h4>
+                <p class="text-muted mb-0">Al ser fabricantes directos, ofrecemos precios competitivos tanto para compras al detal como ventas al por mayor.</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-4 bg-white rounded-4 shadow-sm h-100 border-0">
+                <span class="material-symbols-outlined text-info fs-1 mb-3">local_shipping</span>
+                <h4 class="fw-bold text-brand-primary">Envíos Nacionales</h4>
+                <p class="text-muted mb-0">Despachamos desde nuestra fábrica a cualquier ciudad del país de forma rápida y segura.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección de Contacto (¡Restaurada!) -->
+      <section id="contacto" class="py-5 bg-white">
+        <div class="container py-5">
+          <div class="row align-items-center bg-brand-primary rounded-4 overflow-hidden shadow-lg">
+            <div class="col-lg-6 p-5 text-white">
+              <h2 class="display-6 fw-bold mb-3">¿Tienes un pedido especial?</h2>
+              <p class="lead mb-4 opacity-75">
+                Si necesitas tallas especiales, bordados personalizados o cotizar pedidos al por mayor para hoteles o eventos, escríbenos directamente.
+              </p>
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="material-symbols-outlined fs-3">location_on</span>
+                  <span>Envíos a todo el país</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                  <span class="material-symbols-outlined fs-3">mail</span>
+                  <span>ventas@blconfecciones.com</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 bg-light p-5 h-100 d-flex flex-column justify-content-center align-items-center text-center">
+              <h3 class="fw-bold text-brand-primary mb-3">Atención Inmediata</h3>
+              <p class="text-secondary mb-4">Nuestro equipo de ventas te asesorará de manera personalizada.</p>
+              <a href="https://wa.me/573226718769?text=Hola,%20me%20gustaría%20hacer%20una%20consulta%20general" target="_blank" class="btn btn-whatsapp btn-lg rounded-pill px-5 d-flex align-items-center gap-2 shadow">
+                <span class="material-symbols-outlined">chat</span>
+                Iniciar Chat en WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
 
-    <!-- VISTA 2: CATÁLOGO COMPLETO -->
+    <!-- ==========================================
+         VISTA 2: CATÁLOGO COMPLETO
+         ========================================== -->
     <div v-else-if="vistaActual === 'catalogo'">
       <section class="py-5 bg-white min-vh-100">
         <div class="container py-4">
@@ -242,13 +320,10 @@ onMounted(cargarCatalogo);
             <h2 class="display-5 fw-bold text-brand-primary">Catálogo Completo</h2>
             <p class="text-secondary">Confección directa desde fábrica, selecciona el modelo que deseas pedir.</p>
             
-            <!-- NUEVO CONTENEDOR CON LOS DOS BOTONES -->
             <div v-if="esAdmin" class="d-flex justify-content-center flex-wrap gap-3 mt-4">
               <button class="btn btn-primary fw-bold rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAgregar">
                 <span class="material-symbols-outlined align-middle fs-5 me-1">add_circle</span> Agregar Nuevo Producto
               </button>
-              
-              <!-- NUEVO: Botón de Reporte Excel -->
               <a href="http://localhost:3000/api/reporte" class="btn btn-success fw-bold rounded-pill px-4 shadow-sm d-flex align-items-center">
                 <span class="material-symbols-outlined fs-5 me-1">download</span> Descargar Reporte
               </a>
@@ -314,7 +389,10 @@ onMounted(cargarCatalogo);
       </section>
     </div>
 
-    <!-- MODALES -->
+    <!-- ==========================================
+         MODALES GLOBALES
+         ========================================== -->
+         
     <!-- Modal Login -->
     <div class="modal fade" id="modalLogin" tabindex="-1">
       <div class="modal-dialog modal-sm modal-dialog-centered">
@@ -365,7 +443,7 @@ onMounted(cargarCatalogo);
       </div>
     </div>
 
-    <!-- NUEVO: Modal Editar -->
+    <!-- Modal Editar -->
     <div class="modal fade" id="modalEditar" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -374,7 +452,6 @@ onMounted(cargarCatalogo);
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
-            <!-- Funciona igual que Agregar, pero usa la variable productoAEditar y lanza la función actualizarProducto -->
             <form @submit.prevent="actualizarProducto" id="formEditarProducto">
               <input v-model="productoAEditar.nombre" type="text" class="form-control mb-3" required>
               <select v-model="productoAEditar.categoria" class="form-select mb-3" required>
