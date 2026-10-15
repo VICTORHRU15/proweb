@@ -241,9 +241,18 @@ onMounted(cargarCatalogo);
           <div class="text-center mb-5">
             <h2 class="display-5 fw-bold text-brand-primary">Catálogo Completo</h2>
             <p class="text-secondary">Confección directa desde fábrica, selecciona el modelo que deseas pedir.</p>
-            <button v-if="esAdmin" class="btn btn-primary fw-bold rounded-pill px-4 mt-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAgregar">
-              <span class="material-symbols-outlined align-middle fs-5 me-1">add_circle</span> Agregar Nuevo Producto
-            </button>
+            
+            <!-- NUEVO CONTENEDOR CON LOS DOS BOTONES -->
+            <div v-if="esAdmin" class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+              <button class="btn btn-primary fw-bold rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAgregar">
+                <span class="material-symbols-outlined align-middle fs-5 me-1">add_circle</span> Agregar Nuevo Producto
+              </button>
+              
+              <!-- NUEVO: Botón de Reporte Excel -->
+              <a href="http://localhost:3000/api/reporte" class="btn btn-success fw-bold rounded-pill px-4 shadow-sm d-flex align-items-center">
+                <span class="material-symbols-outlined fs-5 me-1">download</span> Descargar Reporte
+              </a>
+            </div>
           </div>
 
           <div class="row mb-5 justify-content-center bg-light p-4 rounded-4 shadow-sm mx-1">
